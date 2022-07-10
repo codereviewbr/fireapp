@@ -1,6 +1,6 @@
 import 'package:fireapp/profile.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 
 import 'home.dart';
 
@@ -16,7 +16,7 @@ class AuthGate extends StatefulWidget {
 }
 
 class _AuthGateState extends State<AuthGate> {
-  //TODO: instanciar a instancia do FirebaseAuth
+  final _auth = FirebaseAuth.instance;
 
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
@@ -63,7 +63,10 @@ class _AuthGateState extends State<AuthGate> {
                           if (widget.authMode.name == "signUp") {
                             setIsLoading();
                             try {
-                              //TODO: invocar o método createUserWithEmailAndPassword
+                              _auth.createUserWithEmailAndPassword(
+                                email: _emailController.text,
+                                password: _passwordController.text,
+                              );
 
                               Navigator.push(
                                   context,
@@ -71,9 +74,7 @@ class _AuthGateState extends State<AuthGate> {
                                       builder: (context) => const Profile()));
                               ScaffoldSnackbar.of(context)
                                   .show('New account created!');
-
-                              //TODO: alterar PlatformException por FirebaseAuthException
-                            } on PlatformException catch (e) {
+                            } on FirebaseAuthException catch (e) {
                               ScaffoldSnackbar.of(context).show(e.message!);
                             } finally {
                               setIsLoading();
@@ -81,7 +82,10 @@ class _AuthGateState extends State<AuthGate> {
                           } else {
                             setIsLoading();
                             try {
-                              //TODO: invocar o método signInWithEmailAndPassword
+                              _auth.signInWithEmailAndPassword(
+                                email: _emailController.text,
+                                password: _passwordController.text,
+                              );
 
                               Navigator.push(
                                   context,
@@ -89,9 +93,7 @@ class _AuthGateState extends State<AuthGate> {
                                       builder: (context) => const Profile()));
                               ScaffoldSnackbar.of(context)
                                   .show('User logged in!');
-
-                              //TODO: alterar PlatformException por FirebaseAuthException
-                            } on PlatformException catch (e) {
+                            } on FirebaseAuthException catch (e) {
                               ScaffoldSnackbar.of(context).show(e.message!);
                             } finally {
                               setIsLoading();

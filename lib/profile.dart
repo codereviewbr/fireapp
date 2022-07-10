@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class Profile extends StatefulWidget {
@@ -10,7 +11,7 @@ class Profile extends StatefulWidget {
 }
 
 class _ProfileState extends State<Profile> {
-  //TODO: instanciar a instancia do FirebaseAuth
+  final _auth = FirebaseAuth.instance;
 
   @override
   Widget build(BuildContext context) {
@@ -27,13 +28,12 @@ class _ProfileState extends State<Profile> {
               Icons.person,
               size: 40,
             ),
-            //TODO: retornar o email do usuário autenticado em um Text
-
+            Text(_auth.currentUser?.email ?? ''),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 32.0),
               child: ElevatedButton(
                 onPressed: () async {
-                  //TODO invocar o método signOut
+                  _auth.signOut();
 
                   Navigator.popUntil(context, ModalRoute.withName("/"));
                 },
