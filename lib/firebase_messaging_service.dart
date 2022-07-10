@@ -3,8 +3,9 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 
 class FirebaseMessagingService {
-  final LocalNotificationService _localNotificationService;
   final _messaging = FirebaseMessaging.instance;
+
+  final LocalNotificationService _localNotificationService;
 
   FirebaseMessagingService._(this._localNotificationService);
 
